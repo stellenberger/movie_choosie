@@ -1,6 +1,7 @@
 let apiKey = config.apiKey
 let searchQuery
 let pageNumber = 1
+
 document.getElementById("searchQueryForm").addEventListener("submit", function(e){
   // stops the page reload
   e.preventDefault();
@@ -13,7 +14,6 @@ document.getElementById("searchQueryForm").addEventListener("submit", function(e
   // Fetches the api data from omdb and adds the api key and search query to the query string
   // then will check the response of the data
   fetchData(apiKey, searchQuery, pageNumber)  
-
 })
 
 function changePage() {
@@ -75,7 +75,6 @@ function fetchData(apiKey, searchQuery, pageNumber) {
       // append the button onto the application.
       app.appendChild(pageButton);
     }
-    
   }).catch(function(error) {
     console.warn("Something went wrong", error);
   })
