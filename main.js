@@ -1,5 +1,6 @@
-
-document.getElementById("triggerSearch").addEventListener("click", function() {
+document.getElementById("searchQueryForm").addEventListener("submit", function(e){
+  // stops the page reload
+  e.preventDefault();
   // Stores the API key in a hidden file and gets it out
   let apiKey = config.apiKey
   // Will eventually store the search query from the user
