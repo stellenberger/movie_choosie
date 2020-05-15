@@ -1,16 +1,28 @@
 let apiKey = config.apiKey
 let searchQuery
-
+let pageNumber = 1
 document.getElementById("searchQueryForm").addEventListener("submit", function(e){
   // stops the page reload
   e.preventDefault();
   // Stores the API key in a hidden file and gets it out
   // Will eventually store the search query from the user
   searchQuery = document.getElementById("searchQueryBox").value
+  // substitue white spaces with plus signs for the query string
+  searchQuery.replace(" ", "+")
   console.log(searchQuery)
   // Fetches the api data from omdb and adds the api key and search query to the query string
   // then will check the response of the data
-  fetch("http://www.omdbapi.com/?apikey=" + apiKey + "&s=" + searchQuery).then(function(response) {
+  fetchData(apiKey, searchQuery, pageNumber)  
+
+})
+
+function changePage() {
+  pageNumber = this.value
+  fetchData(apiKey, searchQuery, pageNumber)
+}
+
+function fetchData(apiKey, searchQuery, pageNumber) {
+  fetch("http://www.omdbapi.com/?apikey=" + apiKey + "&s=" + searchQuery + "&page=" + pageNumber ).then(function(response) {
     if(response.ok) {
       return response.json();
     } else {
@@ -54,6 +66,8 @@ document.getElementById("searchQueryForm").addEventListener("submit", function(e
       pageButton.appendChild(pageNumber);
       // Set an id to the element for easy styling and to locate the next set of results.
       pageButton.setAttribute("id", "pageNumber")
+      // set the value to the button content 
+      pageButton.setAttribute("value", i + 1)
       // added an event listener to the button, calls the function to change the page
       pageButton.addEventListener("click", changePage)
       // get the DOM app
@@ -65,10 +79,4 @@ document.getElementById("searchQueryForm").addEventListener("submit", function(e
   }).catch(function(error) {
     console.warn("Something went wrong", error);
   })
-
-})
-
-function changePage() {
-  console.log('hello')
 }
-
