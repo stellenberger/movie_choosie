@@ -1,10 +1,12 @@
+let apiKey = config.apiKey
+let searchQuery
+
 document.getElementById("searchQueryForm").addEventListener("submit", function(e){
   // stops the page reload
   e.preventDefault();
   // Stores the API key in a hidden file and gets it out
-  let apiKey = config.apiKey
   // Will eventually store the search query from the user
-  let searchQuery = document.getElementById("searchQueryBox").value
+  searchQuery = document.getElementById("searchQueryBox").value
   console.log(searchQuery)
   // Fetches the api data from omdb and adds the api key and search query to the query string
   // then will check the response of the data
@@ -38,8 +40,35 @@ document.getElementById("searchQueryForm").addEventListener("submit", function(e
       // append the div with the search result into the main app element
       app.appendChild(div);
     }
+    // calculate how many pages of results will be shown, by diving total results by 10 (ten results per page)
+    let numberOfPages = Math.floor(parseInt(data.totalResults) / 10)
+    // Sanity check on the number
+    console.log(numberOfPages);
+    // create a button for each page
+    for(let i = 0; i < numberOfPages; i++) {
+      // create the button element
+      let pageButton = document.createElement("button");
+      // create the page number
+      let pageNumber = document.createTextNode(i + 1);
+      // append the page number onto the button
+      pageButton.appendChild(pageNumber);
+      // Set an id to the element for easy styling and to locate the next set of results.
+      pageButton.setAttribute("id", "pageNumber")
+      // added an event listener to the button, calls the function to change the page
+      pageButton.addEventListener("click", changePage)
+      // get the DOM app
+      let app = document.getElementById('app');
+      // append the button onto the application.
+      app.appendChild(pageButton);
+    }
+    
   }).catch(function(error) {
     console.warn("Something went wrong", error);
   })
 
 })
+
+function changePage() {
+  console.log('hello')
+}
+
