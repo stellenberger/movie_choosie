@@ -24,6 +24,7 @@ document.getElementById("searchQueryForm").addEventListener("submit", function(e
     } else {
       searchResults = data.Search
     }
+    document.getElementById("app").innerHTML = "";
     // iterate through the results 
     for(let i = 0; i < searchResults.length; i++) {
       // create a new div for each result
