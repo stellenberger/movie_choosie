@@ -17,7 +17,13 @@ document.getElementById("searchQueryForm").addEventListener("submit", function(e
     // if all goes well, the data will then be used
   }).then(function(data) {
     // Store the specific search data in a variable called searchResults
-    let searchResults = data.Search
+    let searchResults
+    if(data.Search === undefined) {
+      // shows an error message if we couldnt collect data from the API
+      searchResults = [{Title: "Sorry we could'nt complete your request: " + data.Error}]
+    } else {
+      searchResults = data.Search
+    }
     // iterate through the results 
     for(let i = 0; i < searchResults.length; i++) {
       // create a new div for each result
