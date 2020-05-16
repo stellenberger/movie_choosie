@@ -45,12 +45,19 @@ function fetchData(apiKey, searchQuery, pageNumber) {
       let div = document.createElement("div");
       // create a img tag for the movie poster
       let moviePoster = document.createElement('img')
+      // create an a tag for the movie title
+      let movieTitle = document.createElement('a')
       // add the link to the src attribute in image tag
       moviePoster.setAttribute('src', searchResults[i].Poster)
       // add the result into a text node and store it in a variable
       let title = document.createTextNode(searchResults[i].Title);
       // add that text node to the div element you created
-      div.appendChild(title);
+      movieTitle.appendChild(title)
+      // added an id to the title so we can use event listeners later
+      movieTitle.id = "movieTitle"
+      // using fragment identifier to stick to single page app and for navigation purposes.
+      movieTitle.href = "#" + searchResults[i].imdbID
+      div.appendChild(movieTitle);
       div.appendChild(moviePoster);
       // find the main div with id app and store it in a variable
       let app = document.getElementById('app')
