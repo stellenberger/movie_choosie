@@ -1,14 +1,26 @@
+#searchBar {
+  text-align: center;
+}
+
 #app {
   width: 80%;
-  background-color: red;
   margin: auto;
   display: flex;
   flex-wrap: wrap;
 }
 
 #movieCard {
-  background-color: rosybrown;
-  width: 46%;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 43%;
   text-align: center;
   margin: 2%;
+  padding: 1%;
+}
+
+#pageNavBar {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
 }

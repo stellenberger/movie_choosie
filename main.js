@@ -54,6 +54,8 @@ function fetchData(apiKey, searchQuery, pageNumber) {
     // Sanity check on the number
     console.log(numberOfPages);
     // create a button for each page
+    let pageNavigationBar = document.createElement('div')
+    pageNavigationBar.id = "pageNavBar"
     for(let i = 0; i < numberOfPages; i++) {
       // create the button element
       let pageButton = document.createElement("button");
@@ -70,8 +72,9 @@ function fetchData(apiKey, searchQuery, pageNumber) {
       // get the DOM app
       let app = document.getElementById('app');
       // append the button onto the application.
-      app.appendChild(pageButton);
+      pageNavigationBar.appendChild(pageButton);
     }
+    app.appendChild(pageNavigationBar)
   }).catch(function(error) {
     console.warn("Something went wrong", error);
   })
