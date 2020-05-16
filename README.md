@@ -18,3 +18,13 @@ var config = {
 ```
 
 That's all folks! Open the index.html in your browser and get watching!
+
+## :construction: Upcoming developments
+
+- Styling 
+- Clickable movie links
+- Ratings of the movie/show and their respective episodes
+- Posters of each of the movies/shows
+- Each movie/show has their own card
+- Graphs that show user ratings
+

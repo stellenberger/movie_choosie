@@ -43,10 +43,15 @@ function fetchData(apiKey, searchQuery, pageNumber) {
     for(let i = 0; i < searchResults.length; i++) {
       // create a new div for each result
       let div = document.createElement("div");
+      // create a img tag for the movie poster
+      let moviePoster = document.createElement('img')
+      // add the link to the src attribute in image tag
+      moviePoster.setAttribute('src', searchResults[i].Poster)
       // add the result into a text node and store it in a variable
-      let result = document.createTextNode(searchResults[i].Title);
+      let title = document.createTextNode(searchResults[i].Title);
       // add that text node to the div element you created
-      div.appendChild(result);
+      div.appendChild(title);
+      div.appendChild(moviePoster);
       // find the main div with id app and store it in a variable
       let app = document.getElementById('app')
       // append the div with the search result into the main app element
