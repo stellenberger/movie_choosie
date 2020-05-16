@@ -2,25 +2,6 @@ let apiKey = config.apiKey
 let searchQuery
 let pageNumber = 1
 
-document.getElementById("searchQueryForm").addEventListener("submit", function(e){
-  // stops the page reload
-  e.preventDefault();
-  // Stores the API key in a hidden file and gets it out
-  // Will eventually store the search query from the user
-  searchQuery = document.getElementById("searchQueryBox").value
-  // substitue white spaces with plus signs for the query string
-  searchQuery.replace(" ", "+")
-  console.log(searchQuery)
-  // Fetches the api data from omdb and adds the api key and search query to the query string
-  // then will check the response of the data
-  fetchData(apiKey, searchQuery, pageNumber)  
-})
-
-function changePage() {
-  pageNumber = this.value
-  fetchData(apiKey, searchQuery, pageNumber)
-}
-
 function fetchData(apiKey, searchQuery, pageNumber) {
   fetch("http://www.omdbapi.com/?apikey=" + apiKey + "&s=" + searchQuery + "&page=" + pageNumber ).then(function(response) {
     if(response.ok) {
@@ -43,6 +24,9 @@ function fetchData(apiKey, searchQuery, pageNumber) {
     for(let i = 0; i < searchResults.length; i++) {
       // create a new div for each result
       let div = document.createElement("div");
+      div.id = "movieCard"
+      //create a p element for the title
+      let p = document.createElement('p')
       // create a img tag for the movie poster
       let moviePoster = document.createElement('img')
       // create an a tag for the movie title
@@ -57,7 +41,8 @@ function fetchData(apiKey, searchQuery, pageNumber) {
       movieTitle.id = "movieTitle"
       // using fragment identifier to stick to single page app and for navigation purposes.
       movieTitle.href = "#" + searchResults[i].imdbID
-      div.appendChild(movieTitle);
+      p.appendChild(movieTitle)
+      div.appendChild(p);
       div.appendChild(moviePoster);
       // find the main div with id app and store it in a variable
       let app = document.getElementById('app')
@@ -91,3 +76,65 @@ function fetchData(apiKey, searchQuery, pageNumber) {
     console.warn("Something went wrong", error);
   })
 }
+
+function changePage() {
+  pageNumber = this.value
+  fetchData(apiKey, searchQuery, pageNumber)
+}
+
+document.getElementById("searchQueryForm").addEventListener("submit", function(e){
+  // stops the page reload
+  e.preventDefault();
+  // Stores the API key in a hidden file and gets it out
+  // Will eventually store the search query from the user
+  searchQuery = document.getElementById("searchQueryBox").value
+  // substitue white spaces with plus signs for the query string
+  searchQuery.replace(" ", "+")
+  console.log(searchQuery)
+  // Fetches the api data from omdb and adds the api key and search query to the query string
+  // then will check the response of the data
+  fetchData(apiKey, searchQuery, pageNumber)  
+})
+
+function loadMoviePage() {
+  imdbID = location.hash.substr(1)
+  fetch("http://www.omdbapi.com/?apikey=" + apiKey + "&i=" + imdbID).then(function(response) {
+    if(response.ok) {
+      return response.json();
+    } else {
+      return Promise.reject(response);
+    }
+    // if all goes well, the data will then be used
+  }).then(function(data) {
+    console.log(data)
+    document.getElementById("app").innerHTML = "";
+    // create a new div for each result
+    let div = document.createElement("div");
+    //create a p element for the title
+    let p = document.createElement('p')
+    // create a img tag for the movie poster
+    let moviePoster = document.createElement('img')
+    // create an a tag for the movie title
+    let movieTitle = document.createElement('h1')
+    // add the link to the src attribute in image tag
+    moviePoster.setAttribute('src', data.Poster)
+    // add the result into a text node and store it in a variable
+    let title = document.createTextNode(data.Title);
+    // add that text node to the div element you created
+    movieTitle.appendChild(title)
+    // added an id to the title so we can use event listeners later
+    movieTitle.id = "movieTitle"
+    // using fragment identifier to stick to single page app and for navigation purposes.
+    p.appendChild(movieTitle)
+    div.appendChild(p);
+    div.appendChild(moviePoster);
+    // find the main div with id app and store it in a variable
+    let app = document.getElementById('app')
+    // append the div with the search result into the main app element
+    app.appendChild(div);
+  }).catch(function(error) {
+    console.warn("Something went wrong", error);
+  })
+}
+
+window.addEventListener("hashchange", loadMoviePage)
