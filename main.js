@@ -57,22 +57,23 @@ function fetchData(apiKey, searchQuery, pageNumber) {
     let pageNavigationBar = document.createElement('div')
     pageNavigationBar.id = "pageNavBar"
     for(let i = 0; i < numberOfPages; i++) {
-      // create the button element
-      let pageButton = document.createElement("button");
+      // create the link element
+      let pageLink = document.createElement("a");
       // create the page number
       let pageNumber = document.createTextNode(i + 1);
       // append the page number onto the button
-      pageButton.appendChild(pageNumber);
+      pageLink.appendChild(pageNumber);
       // Set an id to the element for easy styling and to locate the next set of results.
-      pageButton.setAttribute("id", "pageNumber")
+      pageLink.setAttribute("id", "pageNumber")
       // set the value to the button content 
-      pageButton.setAttribute("value", i + 1)
+      pageLink.href = "#" + (i + 1)
+      // pageButton.setAttribute("value", '#' + (i + 1))
       // added an event listener to the button, calls the function to change the page
-      pageButton.addEventListener("click", changePage)
+      // pageButton.addEventListener("click", changePage)
       // get the DOM app
       let app = document.getElementById('app');
       // append the button onto the application.
-      pageNavigationBar.appendChild(pageButton);
+      pageNavigationBar.appendChild(pageLink);
     }
     app.appendChild(pageNavigationBar)
   }).catch(function(error) {
@@ -81,7 +82,8 @@ function fetchData(apiKey, searchQuery, pageNumber) {
 }
 
 function changePage() {
-  pageNumber = this.value
+  // location.hash = "#" + this.value
+  pageNumber = location.hash.substr(1)
   fetchData(apiKey, searchQuery, pageNumber)
 }
 
@@ -140,4 +142,12 @@ function loadMoviePage() {
   })
 }
 
-window.addEventListener("hashchange", loadMoviePage)
+window.addEventListener("hashchange", loadContent)
+
+function loadContent() {
+  if (location.hash.substr(1)[0] === 't') {
+    loadMoviePage()
+  } else {
+    changePage()
+  }
+}
