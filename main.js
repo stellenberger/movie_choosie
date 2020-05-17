@@ -20,6 +20,9 @@ function fetchData(apiKey, searchQuery, pageNumber) {
       searchResults = data.Search
     }
     document.getElementById("app").innerHTML = "";
+    // create a div to store all of the results in
+    let resultsDiv = document.createElement('div')
+    resultsDiv.id = "results"
     // iterate through the results 
     for(let i = 0; i < searchResults.length; i++) {
       // create a new div for each result
@@ -30,25 +33,30 @@ function fetchData(apiKey, searchQuery, pageNumber) {
       // create a img tag for the movie poster
       let moviePoster = document.createElement('img')
       // create an a tag for the movie title
-      let movieTitle = document.createElement('a')
-      // add the link to the src attribute in image tag
-      moviePoster.setAttribute('src', searchResults[i].Poster)
+      let movieLink = document.createElement('a')
+      if(searchResults[i].Poster === "N/A") {
+        moviePoster.setAttribute('src', 'https://www.theprintworks.com/wp-content/themes/psBella/assets/img/film-poster-placeholder.png')
+      } else {
+        // add the link to the src attribute in image tag
+        moviePoster.setAttribute('src', searchResults[i].Poster)
+      }
       // add the result into a text node and store it in a variable
       let title = document.createTextNode(searchResults[i].Title);
       // add that text node to the div element you created
-      movieTitle.appendChild(title)
+      p.appendChild(title)
       // added an id to the title so we can use event listeners later
-      movieTitle.id = "movieTitle"
+      movieLink.id = "movieLink"
       // using fragment identifier to stick to single page app and for navigation purposes.
-      movieTitle.href = "#" + searchResults[i].imdbID
-      p.appendChild(movieTitle)
-      div.appendChild(p);
-      div.appendChild(moviePoster);
+      movieLink.href = "#" + searchResults[i].imdbID
+      movieLink.appendChild(div)
+      div.appendChild(moviePoster)
+      div.appendChild(p)
       // find the main div with id app and store it in a variable
       let app = document.getElementById('app')
       // append the div with the search result into the main app element
-      app.appendChild(div);
+      resultsDiv.appendChild(movieLink);
     }
+    app.appendChild(resultsDiv)
     // calculate how many pages of results will be shown, by diving total results by 10 (ten results per page)
     let numberOfPages = Math.floor(parseInt(data.totalResults) / 10)
     // Sanity check on the number
@@ -113,8 +121,12 @@ function loadMoviePage() {
     let moviePoster = document.createElement('img')
     // create an a tag for the movie title
     let movieTitle = document.createElement('h1')
-    // add the link to the src attribute in image tag
-    moviePoster.setAttribute('src', data.Poster)
+    if(data.Poster === "N/A") {
+      moviePoster.setAttribute('src', 'https://www.theprintworks.com/wp-content/themes/psBella/assets/img/film-poster-placeholder.png')
+    } else {
+      // add the link to the src attribute in image tag
+      moviePoster.setAttribute('src', data.Poster)
+    }
     // add the result into a text node and store it in a variable
     let title = document.createTextNode(data.Title);
     // add that text node to the div element you created
