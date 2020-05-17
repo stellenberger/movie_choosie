@@ -66,12 +66,7 @@ function fetchData(apiKey, searchQuery, pageNumber) {
       // Set an id to the element for easy styling and to locate the next set of results.
       pageLink.setAttribute("id", "pageNumber")
       // set the value to the button content 
-      pageLink.href = "#" + (i + 1)
-      // pageButton.setAttribute("value", '#' + (i + 1))
-      // added an event listener to the button, calls the function to change the page
-      // pageButton.addEventListener("click", changePage)
-      // get the DOM app
-      let app = document.getElementById('app');
+      pageLink.href = "#" + (i + 1) + '+' + searchQuery
       // append the button onto the application.
       pageNavigationBar.appendChild(pageLink);
     }
@@ -81,18 +76,15 @@ function fetchData(apiKey, searchQuery, pageNumber) {
   })
 }
 
-function changePage() {
-  // location.hash = "#" + this.value
-  pageNumber = location.hash.substr(1)
-  fetchData(apiKey, searchQuery, pageNumber)
-}
-
 document.getElementById("searchQueryForm").addEventListener("submit", function(e){
   // stops the page reload
   e.preventDefault();
+  pageNumber = 1
   // Stores the API key in a hidden file and gets it out
   // Will eventually store the search query from the user
   searchQuery = document.getElementById("searchQueryBox").value
+  // changes the location.hash 
+  location.hash = "#" + pageNumber + '+' + searchQuery
   // substitue white spaces with plus signs for the query string
   searchQuery.replace(" ", "+")
   console.log(searchQuery)
@@ -140,6 +132,14 @@ function loadMoviePage() {
   }).catch(function(error) {
     console.warn("Something went wrong", error);
   })
+}
+
+function changePage() {
+  // location.hash = "#" + this.value
+  locationHashInfo = location.hash.substr(1).split("+")
+  pageNumber = locationHashInfo[0]
+  searchQuery = locationHashInfo[1]
+  fetchData(apiKey, searchQuery, pageNumber)
 }
 
 window.addEventListener("hashchange", loadContent)
