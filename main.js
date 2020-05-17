@@ -115,8 +115,7 @@ function loadMoviePage() {
     document.getElementById("app").innerHTML = "";
     // create a new div for each result
     let div = document.createElement("div");
-    //create a p element for the title
-    let p = document.createElement('p')
+    let movieInfo = document.createElement("p");
     // create a img tag for the movie poster
     let moviePoster = document.createElement('img')
     // create an a tag for the movie title
@@ -128,14 +127,45 @@ function loadMoviePage() {
       moviePoster.setAttribute('src', data.Poster)
     }
     // add the result into a text node and store it in a variable
-    let title = document.createTextNode(data.Title);
+    
+    let title = document.createTextNode("Title: " + data.Title);
+    let yearReleased = document.createTextNode("Year Released: " + data.Released)
+    let awards = document.createTextNode("Awards: " + data.Awards)
+    let actors = document.createTextNode("Actors: " + data.Actors)
+    let director = document.createTextNode("Director: " + data.Director)
+    let runtime = document.createTextNode("Total Runtime: " + data.Runtime)
+    let plot = document.createTextNode("Plot: " + data.Plot)
+    let rating = document.createTextNode("Rating: " + data.Rated)
+    let boxOffice = document.createTextNode("Box Office: " + data.BoxOffice)
+    let production = document.createTextNode("Production: " + data.Production)
+    let imdbRating = document.createTextNode("IMDB Rating: " + data.imdbRating)
+    let genre = document.createTextNode("Genre: " + data.Genre)
+    informationArray = [
+      title,
+      yearReleased,
+      awards,
+      actors,
+      director,
+      runtime,
+      plot,
+      rating,
+      boxOffice,
+      production,
+      imdbRating,
+      genre
+    ]
+    for(let i = 0; i < informationArray.length; i++) {
+      let p = document.createElement('p')
+      p.appendChild(informationArray[i])
+      movieInfo.appendChild(p)
+    }
     // add that text node to the div element you created
     movieTitle.appendChild(title)
     // added an id to the title so we can use event listeners later
     movieTitle.id = "movieTitle"
     // using fragment identifier to stick to single page app and for navigation purposes.
-    p.appendChild(movieTitle)
-    div.appendChild(p);
+    div.appendChild(movieTitle);
+    div.appendChild(movieInfo)
     div.appendChild(moviePoster);
     // find the main div with id app and store it in a variable
     let app = document.getElementById('app')
