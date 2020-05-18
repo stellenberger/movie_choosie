@@ -1,3 +1,9 @@
+body {
+  background-color: aliceblue;
+  font-family: 'Jost', sans-serif;
+  font-weight: 100;
+}
+
 #searchBar {
   text-align: center;
 }
@@ -37,6 +43,9 @@ img {
 
 #posterInfoDiv {
   display: flex;
+  width: 80%;
+  margin-left: 10%;
+  justify-content: center;
 }
 
 #movieInfoDiv {
@@ -52,4 +61,12 @@ img {
 #moviePoster {
   width: 100%;
   height: auto;
+}
+
+#moviePageDiv div {
+  justify-content: center;
+}
+
+#movieTitle {
+  margin-left: 10%;
 }

@@ -25,3 +25,4 @@ That's all folks! Open the index.html in your browser and get watching!
 - Ratings of the movie/show and their respective episodes
 - Graphs that show user ratings
 - A dark theme/night mode/movie theme
+- Mobile friendly site

@@ -203,3 +203,5 @@ function loadContent() {
     changePage()
   }
 }
+
+loadContent()
