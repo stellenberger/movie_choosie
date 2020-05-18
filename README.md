@@ -3,7 +3,8 @@
 With this app, you will have the world of Hollywood flicks at your doorstep. You can search up the entirety of collections using keywords, and also take a look at the statistics of each film by clicking on them, such as user ratings for each episode (if you are more of a tv-series kind of person) amongst other things. Dive right in. 
 
 ## :scroll: About
-This app was made using Vanilla JS and uses only a single page. The API used is omdbapi.com. 
+This app was made using Vanilla JS and uses only a single page. The idea of this project was to eliminate any use of frameworks to showcase a solid understanding of pure JavaScript and using the Document Object Model to input HTML. 
+ The API used is omdbapi.com. 
 
 ## :pencil2: Usage
 
@@ -21,10 +22,6 @@ That's all folks! Open the index.html in your browser and get watching!
 
 ## :construction: Upcoming developments
 
-- Styling 
-- Clickable movie links
 - Ratings of the movie/show and their respective episodes
-- Posters of each of the movies/shows
-- Each movie/show has their own card
 - Graphs that show user ratings
-
+- A dark theme/night mode/movie theme
