@@ -12,7 +12,6 @@ function fetchData(apiKey, searchQuery, pageNumber) {
     } // if all goes well, the data will then be used
   }).then(function(data) {
     if(data.Search === undefined) {
-      // shows an error message if we couldnt collect data from the API
       searchResults = [{Title: "Sorry we could'nt complete your request: " + data.Error}]
     } else {
       searchResults = data.Search
@@ -45,18 +44,12 @@ function fetchData(apiKey, searchQuery, pageNumber) {
     let pageNavigationBar = document.createElement('div') 
     pageNavigationBar.id = "pageNavBar"
     for(let i = 0; i < numberOfPages; i++) { // create a button for each page
-      // create the link element
-      let pageLink = document.createElement("a");
-      // create the page number
-      let pageNumber = document.createTextNode(i + 1);
-      // append the page number onto the button
-      pageLink.appendChild(pageNumber);
-      // Set an id to the element for easy styling and to locate the next set of results.
+      let pageLink = document.createElement("a"); // create the link element
+      let pageNumber = document.createTextNode(i + 1); // create the page number
+      pageLink.appendChild(pageNumber); // append the page number onto the button
       pageLink.setAttribute("id", "pageNumber")
-      // set the value to the button content 
-      pageLink.href = "#" + (i + 1) + '+' + searchQuery
-      // append the button onto the application.
-      pageNavigationBar.appendChild(pageLink);
+      pageLink.href = "#" + (i + 1) + '+' + searchQuery // set the value to the button content 
+      pageNavigationBar.appendChild(pageLink); // append the button onto the application.
     }
     app.appendChild(pageNavigationBar)
   }).catch(function(error) {
