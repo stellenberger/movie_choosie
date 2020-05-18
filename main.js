@@ -115,8 +115,15 @@ function loadMoviePage() {
     document.getElementById("app").innerHTML = "";
     // create a new div for each result
     let div = document.createElement("div");
-    let movieInfo = document.createElement("p");
+    div.id = 'moviePageDiv'
+    let posterInfoDiv = document.createElement("div")
+    posterInfoDiv.id = "posterInfoDiv"
+    // all info about the movie will go into this paragraph
+    let movieInfo = document.createElement("div");
+    movieInfo.id = 'movieInfoDiv'
     // create a img tag for the movie poster
+    let moviePosterContainer = document.createElement('div')
+    moviePosterContainer.id = 'moviePosterContainer'
     let moviePoster = document.createElement('img')
     // create an a tag for the movie title
     let movieTitle = document.createElement('h1')
@@ -163,10 +170,13 @@ function loadMoviePage() {
     movieTitle.appendChild(title)
     // added an id to the title so we can use event listeners later
     movieTitle.id = "movieTitle"
+    moviePoster.id = 'moviePoster'
     // using fragment identifier to stick to single page app and for navigation purposes.
     div.appendChild(movieTitle);
-    div.appendChild(movieInfo)
-    div.appendChild(moviePoster);
+    moviePosterContainer.appendChild(moviePoster)
+    posterInfoDiv.appendChild(moviePosterContainer);
+    posterInfoDiv.appendChild(movieInfo)
+    div.appendChild(posterInfoDiv)
     // find the main div with id app and store it in a variable
     let app = document.getElementById('app')
     // append the div with the search result into the main app element

@@ -34,3 +34,22 @@ img {
   margin-left: 5px;
   margin-right: 5px;
 }
+
+#posterInfoDiv {
+  display: flex;
+}
+
+#movieInfoDiv {
+  width: 80%;
+  margin-left: 5%;
+}
+
+#moviePosterContainer {
+  width: 20%;
+  height: auto;
+}
+
+#moviePoster {
+  width: 100%;
+  height: auto;
+}
