@@ -1,6 +1,7 @@
 let apiKey = config.apiKey
 let searchQuery
 let pageNumber = 1
+let searchResults
 
 function fetchData(apiKey, searchQuery, pageNumber) {
   fetch("http://www.omdbapi.com/?apikey=" + apiKey + "&s=" + searchQuery + "&page=" + pageNumber ).then(function(response) {
@@ -8,11 +9,8 @@ function fetchData(apiKey, searchQuery, pageNumber) {
       return response.json();
     } else {
       return Promise.reject(response);
-    }
-    // if all goes well, the data will then be used
+    } // if all goes well, the data will then be used
   }).then(function(data) {
-    // Store the specific search data in a variable called searchResults
-    let searchResults
     if(data.Search === undefined) {
       // shows an error message if we couldnt collect data from the API
       searchResults = [{Title: "Sorry we could'nt complete your request: " + data.Error}]
@@ -20,51 +18,33 @@ function fetchData(apiKey, searchQuery, pageNumber) {
       searchResults = data.Search
     }
     document.getElementById("app").innerHTML = "";
-    // create a div to store all of the results in
-    let resultsDiv = document.createElement('div')
+    let resultsDiv = document.createElement('div') // create a div to store all of the results in
     resultsDiv.id = "results"
-    // iterate through the results 
-    for(let i = 0; i < searchResults.length; i++) {
-      // create a new div for each result
-      let div = document.createElement("div");
-      div.id = "movieCard"
-      //create a p element for the title
-      let p = document.createElement('p')
-      // create a img tag for the movie poster
-      let moviePoster = document.createElement('img')
-      // create an a tag for the movie title
-      let movieLink = document.createElement('a')
+    for(let i = 0; i < searchResults.length; i++) { // iterate through the results 
+      let div = document.createElement("div"); // create a new div for each result
+      div.id = "movieCard" 
+      let p = document.createElement('p') //create a p element for the title
+      let moviePoster = document.createElement('img') // create a img tag for the movie poster
+      let movieLink = document.createElement('a') // create an a tag for the movie title
       if(searchResults[i].Poster === "N/A") {
         moviePoster.setAttribute('src', 'https://www.theprintworks.com/wp-content/themes/psBella/assets/img/film-poster-placeholder.png')
       } else {
-        // add the link to the src attribute in image tag
-        moviePoster.setAttribute('src', searchResults[i].Poster)
+        moviePoster.setAttribute('src', searchResults[i].Poster) // add the link to the src attribute in image tag
       }
-      // add the result into a text node and store it in a variable
-      let title = document.createTextNode(searchResults[i].Title);
-      // add that text node to the div element you created
-      p.appendChild(title)
-      // added an id to the title so we can use event listeners later
-      movieLink.id = "movieLink"
-      // using fragment identifier to stick to single page app and for navigation purposes.
-      movieLink.href = "#" + searchResults[i].imdbID
+      let title = document.createTextNode(searchResults[i].Title); // add the result into a text node and store it in a variable
+      p.appendChild(title) // add that text node to the div element you created
+      movieLink.id = "movieLink" // added an id to the title so we can use event listeners later
+      movieLink.href = "#" + searchResults[i].imdbID // using fragment identifier to stick to single page app and for navigation purposes.
       movieLink.appendChild(div)
       div.appendChild(moviePoster)
       div.appendChild(p)
-      // find the main div with id app and store it in a variable
-      let app = document.getElementById('app')
-      // append the div with the search result into the main app element
-      resultsDiv.appendChild(movieLink);
+      resultsDiv.appendChild(movieLink); // append the div with the search result into the main app element
     }
     app.appendChild(resultsDiv)
-    // calculate how many pages of results will be shown, by diving total results by 10 (ten results per page)
     let numberOfPages = Math.floor(parseInt(data.totalResults) / 10)
-    // Sanity check on the number
-    console.log(numberOfPages);
-    // create a button for each page
-    let pageNavigationBar = document.createElement('div')
+    let pageNavigationBar = document.createElement('div') 
     pageNavigationBar.id = "pageNavBar"
-    for(let i = 0; i < numberOfPages; i++) {
+    for(let i = 0; i < numberOfPages; i++) { // create a button for each page
       // create the link element
       let pageLink = document.createElement("a");
       // create the page number
@@ -85,17 +65,11 @@ function fetchData(apiKey, searchQuery, pageNumber) {
 }
 
 document.getElementById("searchQueryForm").addEventListener("submit", function(e){
-  // stops the page reload
-  e.preventDefault();
+  e.preventDefault(); // stops the page reload
   pageNumber = 1
-  // Stores the API key in a hidden file and gets it out
-  // Will eventually store the search query from the user
-  searchQuery = document.getElementById("searchQueryBox").value
-  // changes the location.hash 
+  searchQuery = document.getElementById("searchQueryBox").value // Will eventually store the search query from the user
   location.hash = "#" + pageNumber + '+' + searchQuery
-  // substitue white spaces with plus signs for the query string
-  searchQuery.replace(" ", "+")
-  console.log(searchQuery)
+  searchQuery.replace(" ", "+") // substitue white spaces with plus signs for the query string
   // Fetches the api data from omdb and adds the api key and search query to the query string
   // then will check the response of the data
   fetchData(apiKey, searchQuery, pageNumber)  
@@ -108,59 +82,38 @@ function loadMoviePage() {
       return response.json();
     } else {
       return Promise.reject(response);
-    }
-    // if all goes well, the data will then be used
+    } // if all goes well, the data will then be used
   }).then(function(data) {
-    console.log(data)
-    document.getElementById("app").innerHTML = "";
-    // create a new div for each result
-    let div = document.createElement("div");
-    div.id = 'moviePageDiv'
+    document.getElementById("app").innerHTML = ""; // clear the DOM
+    let div = document.createElement("div"); // div for result
+    div.id = 'moviePageDiv' // set attribute
     let posterInfoDiv = document.createElement("div")
     posterInfoDiv.id = "posterInfoDiv"
-    // all info about the movie will go into this paragraph
-    let movieInfo = document.createElement("div");
-    movieInfo.id = 'movieInfoDiv'
-    // create a img tag for the movie poster
+    let movieInfo = document.createElement("div"); // all info about the movie will go into this paragraph
+    movieInfo.id = 'movieInfoDiv' // give this an id
     let moviePosterContainer = document.createElement('div')
     moviePosterContainer.id = 'moviePosterContainer'
-    let moviePoster = document.createElement('img')
-    // create an a tag for the movie title
-    let movieTitle = document.createElement('h1')
+    let moviePoster = document.createElement('img')  // create a img tag for the movie poster
+    let movieTitle = document.createElement('h1') // create an a tag for the movie title
     if(data.Poster === "N/A") {
       moviePoster.setAttribute('src', 'https://www.theprintworks.com/wp-content/themes/psBella/assets/img/film-poster-placeholder.png')
     } else {
-      // add the link to the src attribute in image tag
       moviePoster.setAttribute('src', data.Poster)
     }
-    // add the result into a text node and store it in a variable
-    
     let title = document.createTextNode("Title: " + data.Title);
-    let yearReleased = document.createTextNode("Year Released: " + data.Released)
-    let awards = document.createTextNode("Awards: " + data.Awards)
-    let actors = document.createTextNode("Actors: " + data.Actors)
-    let director = document.createTextNode("Director: " + data.Director)
-    let runtime = document.createTextNode("Total Runtime: " + data.Runtime)
-    let plot = document.createTextNode("Plot: " + data.Plot)
-    let rating = document.createTextNode("Rating: " + data.Rated)
-    let boxOffice = document.createTextNode("Box Office: " + data.BoxOffice)
-    let production = document.createTextNode("Production: " + data.Production)
-    let imdbRating = document.createTextNode("IMDB Rating: " + data.imdbRating)
-    let genre = document.createTextNode("Genre: " + data.Genre)
-    informationArray = [
-      title,
-      yearReleased,
-      awards,
-      actors,
-      director,
-      runtime,
-      plot,
-      rating,
-      boxOffice,
-      production,
-      imdbRating,
-      genre
-    ]
+    let informationArray = []
+    informationArray.push(document.createTextNode("Title: " + data.Title));
+    informationArray.push(document.createTextNode("Year Released: " + data.Released));
+    informationArray.push(document.createTextNode("Awards: " + data.Awards));
+    informationArray.push(document.createTextNode("Actors: " + data.Actors));
+    informationArray.push(document.createTextNode("Director: " + data.Director));
+    informationArray.push(document.createTextNode("Total Runtime: " + data.Runtime));
+    informationArray.push(document.createTextNode("Plot: " + data.Plot));
+    informationArray.push(document.createTextNode("Rating: " + data.Rated));
+    informationArray.push(document.createTextNode("Box Office: " + data.BoxOffice));
+    informationArray.push(document.createTextNode("Production: " + data.Production));
+    informationArray.push(document.createTextNode("IMDB Rating: " + data.imdbRating));
+    informationArray.push(document.createTextNode("Genre: " + data.Genre));
     for(let i = 0; i < informationArray.length; i++) {
       let p = document.createElement('p')
       p.appendChild(informationArray[i])
@@ -187,7 +140,6 @@ function loadMoviePage() {
 }
 
 function changePage() {
-  // location.hash = "#" + this.value
   locationHashInfo = location.hash.substr(1).split("+")
   pageNumber = locationHashInfo[0]
   searchQuery = locationHashInfo[1]
